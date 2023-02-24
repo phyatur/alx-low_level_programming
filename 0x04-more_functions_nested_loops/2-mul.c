@@ -6,10 +6,10 @@
  * @a: input parameter
  * @b: input parameter
  *
- * Return: a * b 
+ * Return: a * b
  */
 
 int mul(int a, int b)
-{	
+{
 	return (a * b);
 }
