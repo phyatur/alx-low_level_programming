@@ -1,10 +1,10 @@
 #include "main.h"
 
+
 /**
  * print_number - a function that prints an integer
  *
  * @n: integer argument
- *
  */
 
 void print_number(int n)
@@ -22,3 +22,4 @@ void print_number(int n)
 
 	_putchar((num1 % 10) + '0');
 }
+
