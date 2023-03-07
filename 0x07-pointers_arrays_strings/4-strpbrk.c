@@ -7,7 +7,7 @@
  * @accept: string
  *
  * Return: a pointer to the byte in s
- * Return: NULL if no such byte is found
+ * or NULL if no such byte is found
  *
  */
 
