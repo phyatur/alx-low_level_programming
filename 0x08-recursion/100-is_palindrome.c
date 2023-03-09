@@ -19,9 +19,9 @@ int _strlen(char *s)
  * palind_recursive - a function that checks if two chars
  * of a string are equal
  *
- * @s: string 
+ * @s: string
  *
- * @i: first 
+ * @i: first
  *
  * @j: last
  *
@@ -42,7 +42,7 @@ int palind_recursive(char *s, int i, int j)
 /**
  * is_palindrome - a function that returns 1 if a string is a palindrome
  * and 0 if not.
- * 
+ *
  * @s: string
  *
  * Return: 1 if string is palindrome 0 if not
