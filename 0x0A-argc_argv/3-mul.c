@@ -20,10 +20,15 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		int i = atoi(argv[1]);
-		int j = atoi(argv[2]);
+		int i;
+		int j = 1;
 
-		printf("%i\n", i * j);
+		for (i = 1; i < 3; i++)
+		{
+			j *= atoi(argv[i]);
+		}
+
+		printf("%i\n", j);
 	}
 	return (0);
 }
