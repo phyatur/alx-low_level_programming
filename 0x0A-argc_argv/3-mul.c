@@ -13,22 +13,18 @@
 
 int main(int argc, char *argv[])
 {
+	int i, j;
+
 	if (argc < 3)
 	{
-		printf("Error \n");
+		printf("Error\n");
 		return (1);
 	}
-	else
-	{
-		int i;
-		int j = 1;
 
-		for (i = 1; i < 3; i++)
-		{
-			j *= atoi(argv[i]);
-		}
+	i = atoi(argv[1]);
+	j = atoi(argv[2]);
 
-		printf("%i\n", j);
-	}
+	printf("%d\n", i * j);
+
 	return (0);
 }
