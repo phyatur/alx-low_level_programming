@@ -9,6 +9,7 @@
  * @argv: argument vector
  *
  * Return: 0
+ * 1 if Error
  */
 
 int main(int argc, char *argv[])
