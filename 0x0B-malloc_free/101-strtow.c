@@ -11,13 +11,15 @@
 
 int counter(char *str)
 {
-	int i = 0;
+	int i = 0, length = 0;
 
-	if (str[i] == '\0')
-		return (0);
-	if (str[i] == ' ' && str[i + 1] != ' ' && str[i + 1] != '\0')
-		return (1 + counter(str, i + 1));
-	return (counter(str, i + 1));
+	while (*(str + i) && *(str + i) != ' ')
+	{
+		length++;
+		i++;
+	}
+
+	return (length);
 }
 
 /**
@@ -30,9 +32,21 @@ int counter(char *str)
 
 int counterWords(char *str)
 {
-	if (str[0] != ' ')
-		return (1 + counter(str, 0));
-	return (counter(str, 0));
+	int i = 0, words = 0, length = 0;
+
+	for (i = 0; *(str + i); i++)
+		length++;
+
+	for (i = 0; i < length; i++)
+	{
+		if (*(str + i) != ' ')
+		{
+			words++;
+			i += counter(str + i);
+		}
+	}
+
+	return (words);
 }
 
 /**
@@ -45,44 +59,43 @@ int counterWords(char *str)
 
 char **strtow(char *str)
 {
-	char **duplicate;
-	int i, j, k, words;
+	char **strings;
 
-	if (str == NULL || str[0] == 0)
+	int index = 0,
+
+	int w, words, letters, l;
+
+	if (str == NULL || str[0] == '\0')
 		return (NULL);
+
 	words = counterWords(str);
-	if (words < 1)
+	if (words == 0)
 		return (NULL);
-	duplicate = malloc(sizeof(char *) * (words + 1));
-	if (duplicate == NULL)
+
+	strings = malloc(sizeof(char *) * (words + 1));
+	if (strings == NULL)
 		return (NULL);
-	i = 0;
-	while (i < words && *str != '\0')
+
+	for (w = 0; w < words; w++)
 	{
-		if (*str != ' ')
+		while (str[index] == ' ')
+			index++;
+
+		letters = counter(str + index);
+		strings[w] = malloc(sizeof(char) * (letters + 1));
+
+		if (strings[w] == NULL)
 		{
-			j = 0;
-			while (str[j] != ' ')
-				j++;
-			duplicate[i] = malloc(sizeof(char) * (j + 1));
-			if (duplicate[i] == NULL)
-			{
-				while (--i >= 0)
-					free(duplicate[--i]);
-				free(duplicate);
-				return (NULL);
-			}
-			k = 0;
-			while (k < j)
-			{
-				duplicate[i][k] = *str;
-				k++, str++;
-			}
-			duplicate[i][k] = '\0';
-			i++;
-		}
-		str++;
+			for (; w >= 0; w--)
+				free(strings[w]);
+			free(strings);
+			return (NULL);
+
+		for (l = 0; l < letters; l++)
+			strings[w][l] = str[index++];
+
+		strings[w][l] = '\0';
 	}
-	duplicate[i] = '\0';
-	return (duplicate);
+	strings[w] = NULL;
+	return (strings);
 }
