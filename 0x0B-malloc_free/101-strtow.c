@@ -53,7 +53,7 @@ char **strtow(char *str)
 	words = word_counter(str);
 	if (words < 1)
 		return (NULL);
-	duplicate = malloc(sizeof(char *) * (words + 1));
+	duplicate = malloc(sizeof(char *) * (n + 1));
 	if (duplicate == NULL)
 		return (NULL);
 	i = 0;
