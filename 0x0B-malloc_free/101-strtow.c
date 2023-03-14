@@ -2,100 +2,87 @@
 #include <stdlib.h>
 
 /**
- * counter - count number of words
+ * wordCounterRec - count num of words
  *
- * @str: char
+ * @str: pointer to char
  *
- * Return: number of words
- **/
-
-int counter(char *str)
-{
-	int i = 0, length = 0;
-
-	while (*(str + i) && *(str + i) != ' ')
-	{
-		length++;
-		i++;
-	}
-
-	return (length);
-}
-
-/**
- * counterWords - counts number of words in array
- *
- * @str: char
+ * @i: current index
  *
  * Return: number of words
  **/
 
-int counterWords(char *str)
+int wordCounterRec(char *str, int i)
 {
-	int i = 0, words = 0, length = 0;
-
-	for (i = 0; *(str + i); i++)
-		length++;
-
-	for (i = 0; i < length; i++)
-	{
-		if (*(str + i) != ' ')
-		{
-			words++;
-			i += counter(str + i);
-		}
-	}
-
-	return (words);
+	if (str[i] == '\0')
+		return (0);
+	if (str[i] == ' ' && str[i + 1] != ' ' && str[i + 1] != '\0')
+		return (1 + wordCounterRec(str, i + 1));
+	return (wordCounterRec(str, i + 1));
 }
 
 /**
- * strtow - a function that splits a string into words.
+ * word_counter - counts number of words in array of strings
  *
- * @str: the string
+ * @str: pointer to char
+ *
+ * Return: number of words
+ **/
+
+int word_counter(char *str)
+{
+	if (str[0] != ' ')
+		return (1 + wordCounterRec(str, 0));
+	return (wordCounterRec(str, 0));
+}
+
+/**
+ * strtow - splits a string into words.
+ *
+ * @str: string to be splitted
  *
  * Return: pointer to an array of strings or null
  **/
 
 char **strtow(char *str)
 {
-	char **strings;
+	char **strDup;
+	int i, n, m, words;
 
-	int index = 0,
-
-	int w, words, letters, l;
-
-	if (str == NULL || str[0] == '\0')
+	if (str == NULL || str[0] == 0)
 		return (NULL);
-
-	words = counterWords(str);
-	if (words == 0)
+	words = word_counter(str);
+	if (words < 1)
 		return (NULL);
-
-	strings = malloc(sizeof(char *) * (words + 1));
-	if (strings == NULL)
+	strDup = malloc(sizeof(char *) * (words + 1));
+	if (strDup == NULL)
 		return (NULL);
-
-	for (w = 0; w < words; w++)
+	i = 0;
+	while (i < words && *str != '\0')
 	{
-		while (str[index] == ' ')
-			index++;
-
-		letters = counter(str + index);
-		strings[w] = malloc(sizeof(char) * (letters + 1));
-
-		if (strings[w] == NULL)
+		if (*str != ' ')
 		{
-			for (; w >= 0; w--)
-				free(strings[w]);
-			free(strings);
-			return (NULL);
-
-		for (l = 0; l < letters; l++)
-			strings[w][l] = str[index++];
-
-		strings[w][l] = '\0';
+			n = 0;
+			while (str[n] != ' ')
+				n++;
+			strDup[i] = malloc(sizeof(char) * (n + 1));
+			if (strDup[i] == NULL)
+			{
+				while (--i >= 0)
+					free(strDup[--i]);
+				free(strDup);
+				return (NULL);
+			}
+			m = 0;
+			while (m < n)
+			{
+				strDup[i][m] = *str;
+				m++, str++;
+			}
+			strDup[i][m] = '\0';
+			i++;
+		}
+		str++;
 	}
-	strings[w] = NULL;
-	return (strings);
+	strDup[i] = '\0';
+	return (strDup);
 }
