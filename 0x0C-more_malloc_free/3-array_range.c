@@ -9,7 +9,7 @@
  * @max: end value
  *
  * Return: the pointer to the newly created array or NULL
- **/
+ */
 
 int *array_range(int min, int max)
 {
