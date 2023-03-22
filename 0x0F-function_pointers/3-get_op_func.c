@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 /**
- * get_op_func - a function that selects the correct function to perform operation
+ * get_op_func - a function that selects the correct function
  *
  * @s: argument
  *
