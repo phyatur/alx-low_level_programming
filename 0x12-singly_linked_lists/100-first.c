@@ -4,7 +4,7 @@
  * de - a function that prints a string
  */
 
-void de(void) __attribute__((constructor))
+void de(void) __attribute__((constructor));
 
 void de(void)
 {
