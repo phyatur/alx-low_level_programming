@@ -10,29 +10,31 @@
 
 listint_t *find_listint_loop(listint_t *head)
 {
-	listint_t *turtle, *hare;
+	listint_t *tortoise, *hare;
 
-	/* determine if loop exists by seeing if turtle and hare meets */
-	/* start them at head, move turtle one node and hare two nodes */
-	turtle = hare = head;
+	if (head == NULL || head->next == NULL)
+		return (NULL);
 
-	while (turtle != NULL && hare != NULL)
+	tortoise = head->next;
+	hare = (head->next)->next;
+
+	while (hare)
 	{
-		turtle = turtle->next;
-		hare = hare->next->next;
-
-		if (turtle == hare)
+		if (tortoise == hare)
 		{
-			/* start turtle at head and hare at address they met */
-			/* move turtle and hare one node to find loop origin */
-			turtle = head;
-			while (turtle != hare)
+			tortoise = head;
+
+			while (tortoise != hare)
 			{
-				turtle = turtle->next;
+				tortoise = tortoise->next;
 				hare = hare->next;
 			}
-			return (turtle);
+
+			return (tortoise);
 		}
+
+		tortoise = tortoise->next;
+		hare = (hare->next)->next;
 	}
 
 	return (NULL);
