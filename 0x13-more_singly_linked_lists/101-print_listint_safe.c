@@ -1,6 +1,10 @@
 #include "lists.h"
 #include <stdio.h>
 
+int count_nodes_till_loop(const listint_t *head);
+int loop(const listint_t *head);
+size_t print_listint_safe(const listint_t *head);
+
 /**
  * count_nodes_till_loop - count nodes to know now many unique nodes to print
  *
