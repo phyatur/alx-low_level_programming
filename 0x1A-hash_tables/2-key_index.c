@@ -1,12 +1,18 @@
 #include "hash_tables.h"
+
 /**
- * key_index - returns index of hashtable value
- * @key: key to test
- * @size: size of hash table
- * Return: modulo of hashed key to size
+ * key_index - gives index of a key
+ * @key: key
+ * @size: size of hash table array
+ * Return: index where key/value pair is stored in hash table array
  */
 unsigned long int key_index(const unsigned char *key, unsigned long int size)
 {
+	unsigned long int idx;
 
-	return (hash_djb2(key) % size);
+	if (size == 0)
+		return (0);
+
+	idx = hash_djb2(key);
+	return (idx % size);
 }

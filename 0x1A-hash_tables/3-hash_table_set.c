@@ -1,49 +1,87 @@
 #include "hash_tables.h"
+
 /**
- * hash_table_set - adds element to hash table
- * @ht: hash table to add or update
- * @key: key to add
- * @value: value to associate with key
- * Return: 1 or 0 if succeed or fail
+ * create_and_add_node - malloc, set values, and insert node into hash table
+ * @ht: hash table
+ * @key: key; can't be empty string
+ * @value: value
+ * @idx: index to insert in at hash table
+ * Return: 1 if success, 0 if fail
+ */
+int create_and_add_node(hash_table_t *ht, const char *key, const char *value,
+			unsigned long int idx)
+{
+	hash_node_t *node = NULL;
+	char *k;
+	char *v;
+
+	node = malloc(sizeof(hash_node_t));
+	if (!node)
+		return (0);
+
+	k = strdup(key);
+	if (!k)
+	{
+		free(node);
+		return (0);
+	}
+
+	v = strdup(value);
+	if (!v)
+	{
+		free(k);
+		free(node);
+		return (0);
+	}
+
+	node->key = k;
+	node->value = v;
+
+	if ((ht->array)[idx] == NULL)
+		node->next = NULL;
+	else
+		node->next = (ht->array)[idx];
+	(ht->array)[idx] = node;
+
+	return (1);
+}
+
+/**
+ * hash_table_set - add element to hash table
+ * @ht: hash table
+ * @key: key; can't be empty string
+ * @value: value
+ * Return: 1 if success, 0 if fail
  */
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
-	unsigned long int position;
-	hash_node_t *checker, *new;
+	/* get index */
+	/* if key already exists, update value and return */
+	/* else create node */
+	/* set ht idx ptr to node; else add node to front if collision */
 
-	if (!ht || !ht->size || !strlen(key))
+	unsigned long int idx;
+	hash_node_t *node = NULL;
+	char *v;
+
+	if (!ht || !(ht->array) || !key || strlen(key) == 0 || !value)
 		return (0);
-	position = key_index((const unsigned char *)key, ht->size);
-	checker = ht->array[position];
-	while (checker)
+
+	idx = key_index((const unsigned char *)key, ht->size);
+
+	node = (ht->array)[idx];
+	while (node && (strcmp(key, node->key) != 0))
+		node = node->next;
+	if (node != NULL)
 	{
-		if (!strcmp(checker->key, key))
-		{
-			free(checker->value);
-			checker->value = strdup((char *)value);
-			if (!checker->value)
-				return (0);
-			return (1);
-		}
-		checker = checker->next;
+		v = strdup(value);
+		if (!v)
+			return (0);
+		if (node->value)
+			free(node->value);
+		node->value = v;
+		return (1);
 	}
-	new = malloc(sizeof(hash_node_t));
-	if (!new)
-		return (0);
-	new->key = strdup((char *)key);
-	if (!new->key)
-	{
-		free(new);
-		exit(0);
-	}
-	new->value = strdup((char *)value);
-	if (!new->value)
-	{
-		free(new->value);
-		free(new);
-		return (0);
-	}
-	new->next = ht->array[position];
-	ht->array[position] = new;
-	return (1);
+
+	return (create_and_add_node(ht, key, value, idx));
 }
