@@ -1,11 +1,9 @@
 #include "hash_tables.h"
 
 /**
- * hash_djb2 - implement djb2 algorithm (one of best string hash functions)
- * source code copied from http://www.cse.yorku.ca/~oz/hash.html
- *
- * @str: value
- * Return: key
+ * hash_djb2 - hash function generates a djb2
+ * @str: pointer to chars a hash
+ * Return: hash key
  */
 unsigned long int hash_djb2(const unsigned char *str)
 {
@@ -13,8 +11,7 @@ unsigned long int hash_djb2(const unsigned char *str)
 	int c;
 
 	while ((c = *str++))
-		hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+	hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
 
 	return (hash);
-}
 }
